@@ -103,6 +103,26 @@ server.put("/users/:id", (req, res) => {
     }
 })
 
+server.delete("/users/:id", (req, res) => {
+    const user = db.getUserById(req.params.id)
+    
+    if (!user) {
+        return res.status(404).json({
+            ErrorMessage: `The user with the specified ID ${req.params.id} does not exist.`,
+        })
+    }
+
+	if (user) {
+		db.deleteUser(user.id)
+		// 204 is a successful empty response, since there's nothing to return
+		res.status(204).end()
+	} else {
+		res.status(500).json({
+			errorMessage: "The user could not be removed.",
+		})
+	}
+})
+
 // watch for connections on the specified port, below
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
