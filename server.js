@@ -40,6 +40,34 @@ server.get("/users/:id", (req, res) => {
     }
 })
 
+// POST to /users to make a new user
+server.post("/users", (req, res) => {
+	if (!req.body.name) {
+		return res.status(400).json({
+			ErrorMessage: "Please provide a name for the user.",
+		})
+    }
+    
+    if (!req.body.bio) {
+		return res.status(400).json({
+			ErrorMessage: "Please provide a bio for the user.",
+		})
+	}
+
+	const newUser = db.createUser({
+        name: req.body.name,
+        bio: req.body.bio
+	})
+
+    if (newUser) {
+        res.status(201).json(newUser)
+    } else {
+        res.status(500).json({
+            ErrorMessage: "There was an error while saving the user to the database."
+        })
+    }
+})
+
 // watch for connections on the specified port, below
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
