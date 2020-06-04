@@ -12,7 +12,13 @@ server.get('/', (req, res) => {
 
   server.get("/users", (req, res) => {
     const users = db.getUsers()
-    res.json(users)
+    if (users) {
+        res.json(users)
+    } else {
+        res.status(500).json({
+            message: "The users information could not be retrieved.",
+        })
+    }
     // res.json({ message: "Hello, World!"})
 })
 
