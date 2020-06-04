@@ -10,16 +10,34 @@ server.get('/', (req, res) => {
     res.send('Hello from Express');
   });
 
-  server.get("/users", (req, res) => {
+// GET all users
+server.get("/users", (req, res) => {
     const users = db.getUsers()
     if (users) {
         res.json(users)
     } else {
         res.status(500).json({
-            message: "The users information could not be retrieved.",
+            errorMessage: "The users information could not be retrieved.",
         })
     }
-    // res.json({ message: "Hello, World!"})
+})
+
+// GET specific user
+server.get("/users/:id", (req, res) => {
+    // param id variable matches URL param :id
+    const user = db.getUserById(req.params.id)
+
+    if (user) {
+        res.json(user)
+    } else if (!user) {
+        res.status(404).json({
+            message: `The user with the specified ID ${req.params.id} does not exist.`,
+        })
+    } else {
+        res.status(500).json({
+            ErrorMessage: "The user information could not be retrieved."
+        })
+    }
 })
 
 // watch for connections on the specified port, below
