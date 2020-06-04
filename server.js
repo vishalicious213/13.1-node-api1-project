@@ -22,7 +22,7 @@ server.get("/users", (req, res) => {
     }
 })
 
-// GET specific user
+// GET to /users/:id to retrieve specific user
 server.get("/users/:id", (req, res) => {
     // param id variable matches URL param :id
     const user = db.getUserById(req.params.id)
@@ -31,7 +31,7 @@ server.get("/users/:id", (req, res) => {
         res.json(user)
     } else if (!user) {
         res.status(404).json({
-            message: `The user with the specified ID ${req.params.id} does not exist.`,
+            ErrorMessage: `The user with the specified ID ${req.params.id} does not exist.`,
         })
     } else {
         res.status(500).json({
@@ -64,6 +64,41 @@ server.post("/users", (req, res) => {
     } else {
         res.status(500).json({
             ErrorMessage: "There was an error while saving the user to the database."
+        })
+    }
+})
+
+// PUT to /users/:id to update specific user
+server.put("/users/:id", (req, res) => {
+	const user = db.getUserById(req.params.id)
+
+    if (!user) {
+        return res.status(404).json({
+            ErrorMessage: `The user with the specified ID ${req.params.id} does not exist.`,
+        })
+    }
+
+    if (!req.body.name) {
+		return res.status(400).json({
+			ErrorMessage: "Please provide a name for the user.",
+		})
+    }
+    
+    if (!req.body.bio) {
+		return res.status(400).json({
+			ErrorMessage: "Please provide a bio for the user.",
+		})
+	}
+
+	if (user) {
+		const updatedUser = db.updateUser(user.id, {
+            name: req.body.name || user.name,
+            bio: req.body.bio || user.bio,
+		})
+		res.status(200).json(updatedUser)
+    } else {
+        res.status(500).json({
+            errorMessage: "The user information could not be modified.",
         })
     }
 })
