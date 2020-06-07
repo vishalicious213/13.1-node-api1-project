@@ -31,8 +31,8 @@ const ShowUsers = () => {
                             <p>{user.bio}</p>
                         </div>
                         <div className='button-container'>
-                            <button>Delete</button>
                             <button>Update</button>
+                            <button>Delete</button>
                         </div>
                     </div>
                 )) : null)}
@@ -56,10 +56,15 @@ const Section = styled.section`
         padding: .5rem;
         margin: .5rem;
         width: 28%;
+        min-width: 110px;
     }
 
     .user:hover {
         border: 1px solid white;
+
+        p {
+            color: whitesmoke;
+        }
     }
 
     h4 {
@@ -79,6 +84,11 @@ const Section = styled.section`
         margin-top: 1rem;
         margin-right: .5rem;
         margin-left: .5rem;
+    }
+
+    button {
+        font-size: .75rem;
+        width: 4rem;
     }
 `
 export default ShowUsers;
