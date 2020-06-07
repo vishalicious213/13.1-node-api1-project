@@ -1,6 +1,7 @@
 const express = require("express"); // import express
 const server = express();           // declare express server
 server.use(express.json());         // middleware to parse JSON
+server.use(cors());                 // middleware to enable CORS
 const db = require("./db.js")
 const hostname = '127.0.0.1';       // local server name
 const port = 3000;                  //  listening port
@@ -103,6 +104,7 @@ server.put("/users/:id", (req, res) => {
     }
 })
 
+// DELETE to /users/:id to delete specific user
 server.delete("/users/:id", (req, res) => {
     const user = db.getUserById(req.params.id)
     
