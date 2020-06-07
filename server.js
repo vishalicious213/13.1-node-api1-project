@@ -1,10 +1,11 @@
 const express = require("express"); // import express
 const server = express();           // declare express server
+const cors = require("cors");       // import CORS (after install)
 server.use(express.json());         // middleware to parse JSON
 server.use(cors());                 // middleware to enable CORS
 const db = require("./db.js")
 const hostname = '127.0.0.1';       // local server name
-const port = 3000;                  //  listening port
+const port = 3001;                  //  listening port
 
 // handle requests to the root of the api, the / route
 server.get('/', (req, res) => {
