@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
+import getUsers from './../utilities/getUsers';
 
 const ShowUsers = () => {
     const [users, setUsers] = useState();
 
-    const getUsers = () => {
-        axios
-            .get('http://localhost:3001/users')
-            .then(response => {
-                // console.log(response.data);
-                setUsers(response.data);
-            })
-            .catch(error => {
-                console.log("Error retrieving data: ", error);
-            })
-    }
-
     useEffect(() => {
-        getUsers()
+        getUsers(setUsers)
     }, [])
 
     return (

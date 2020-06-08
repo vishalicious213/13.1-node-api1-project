@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import getUsers from './../utilities/getUsers';
 
 const AddUser = (props) => {
+    const [users, setUsers] = useState();
     const [userName, setUserName] = useState('');
-    const [userEmail, setUserEmail] = useState('');
+    const [userBio, setUserBio] = useState('');
 
     const updateUserName = event => {
         setUserName(event.target.value);
     }
 
-    const updateUserEmail = event => {
-        setUserEmail(event.target.value);
+    const updateUserBio = event => {
+        setUserBio(event.target.value);
     }
 
     const submitUser = event => {
         event.preventDefault();
         axios
-            .post('http://localhost:5000/api/users', { name: userName, email: userEmail })
+            .post('http://localhost:3001/users', { name: userName, bio: userBio })
             .then(results => {
-                // console.log('Add User: ', results);
-                props.history.push('/userslist');
+                console.log('Add User: ', results);
+                getUsers(setUsers);
             })
             .catch(error => {
                 console.log('Login error: ', error);
@@ -33,7 +35,7 @@ const AddUser = (props) => {
             <form className='add-user-form' onSubmit={submitUser}>
                 <h4 className='add-user-text add-user-heading'>Add New User</h4>
                 <input className='login-input' type='text' name='userName' placeholder="User's Name" value={userName} onChange={updateUserName} />
-                <input className='login-input' type='text' name='userEmail' placeholder="User's Email" value={userEmail} onChange={updateUserEmail} />
+                <input className='login-input' type='text' name='userBio' placeholder="User's Bio" value={userBio} onChange={updateUserBio} />
                 <button className='login-input' >Add User</button>
             </form>
         </Section>
